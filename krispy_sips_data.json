@@ -81,7 +81,7 @@
       "price": 70,
       "itemCount": 1,
       "received": true,
-      "paid": false
+      "paid": true
     }
   ],
   "2026-06-30": [],
