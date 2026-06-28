@@ -24,7 +24,7 @@
       "name": "Boba Tea",
       "price": 120,
       "itemCount": 1,
-      "received": false,
+      "received": true,
       "paid": false
     },
     {
