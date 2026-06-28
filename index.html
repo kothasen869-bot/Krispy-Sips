@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Krispy Sips - Daily Sales Tracker</title>
+    <title>Daily Food Stall Sales Tracker</title>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --panel-bg: #ffffff;
             --primary-color: #4f46e5;
-            --primary-hover: #4338ca;
-            --text-main: #1f2937;
-            --text-muted: #6b7280;
-            --border-color: #e5e7eb;
-            --success-color: #10b981;
-            --pending-color: #f59e0b;
+            --background: #f8fafc;
+            --panel-bg: #ffffff;
+            --text: #1e293b;
+            --border: #e2e8f0;
         }
 
         * {
@@ -25,107 +21,133 @@
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
+            display: flex;
+            background-color: var(--background);
+            color: var(--text);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Style */
+        #sidebar {
+            width: 280px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+            padding: 20px;
+            height: 100%;
+        }
+
+        .sidebar-header {
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #4338ca;
+        }
+
+        .history-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-top: 15px;
+        }
+
+        .month-folder {
+            margin-bottom: 15px;
+        }
+
+        .month-title {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        .slide-link {
+            display: block;
+            padding: 8px 12px;
+            border-radius: 6px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .slide-link:hover {
+            background-color: #f1f5f9;
+        }
+
+        .slide-link.active {
+            background-color: #e0e7ff;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        /* Main Content Area */
+        #main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background-color: var(--background);
         }
 
         header {
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--border-color);
+            background-color: var(--panel-bg);
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        header h1 {
-            font-size: 24px;
-            color: var(--primary-color);
-        }
-
-        .date-badge {
-            background: var(--panel-bg);
-            padding: 8px 16px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            font-weight: bold;
-        }
-
-        .main-container {
+        .date-picker-container {
             display: flex;
-            gap: 20px;
-            flex: 1;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .date-input {
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 1rem;
+        }
+
+        /* Workspace Grid: Orders Table + Counting Bar */
+        .workspace {
+            display: flex;
+            flex-grow: 1;
             overflow: hidden;
-        }
-
-        /* Left Panel: Order Logging & History */
-        .left-panel {
-            flex: 7;
-            background: var(--panel-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            overflow-y: auto;
-        }
-
-        .order-form {
-            display: grid;
-            grid-template-columns: 2fr 1fr auto;
-            gap: 15px;
-            align-items: end;
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .form-group label {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        select, input[type="number"] {
-            padding: 10px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            font-size: 15px;
-            outline: none;
-            background: white;
-        }
-
-        .btn-add {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 6px;
-            font-weight: 600;
-            cursor: pointer;
-            height: 42px;
-            transition: background 0.2s;
-        }
-
-        .btn-add:hover {
-            background: var(--primary-hover);
+            padding: 30px;
+            gap: 30px;
         }
 
         .table-container {
-            flex: 1;
+            flex-grow: 1;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             overflow-y: auto;
+            padding: 20px;
+            height: 100%;
         }
 
         table {
@@ -134,278 +156,376 @@
             text-align: left;
         }
 
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
         th {
-            background: var(--bg-color);
-            padding: 12px;
-            font-size: 13px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            position: sticky;
-            top: 0;
-        }
-
-        td {
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 15px;
-        }
-
-        .status-checkbox {
-            width: 18px;
-            height: 18px;
-            cursor: pointer;
-            accent-color: var(--primary-color);
-        }
-
-        .btn-delete {
-            background: none;
-            border: none;
-            color: #ef4444;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        /* Right Panel: Auto Counting Sidebar */
-        .sidebar {
-            flex: 3;
-            background: var(--panel-bg);
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .sidebar h2 {
-            font-size: 18px;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 8px;
-        }
-
-        .stat-card {
-            background: var(--bg-color);
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .stat-card.total {
-            background: #e0e7ff;
-            border-left: 4px solid var(--primary-color);
-        }
-
-        .stat-label {
-            font-size: 12px;
-            text-transform: uppercase;
-            color: var(--text-muted);
+            background-color: #f8fafc;
+            color: #64748b;
             font-weight: 600;
         }
 
-        .stat-value {
-            font-size: 24px;
-            font-weight: 700;
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.95rem;
         }
 
-        .breakdown-list {
-            list-style: none;
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        /* Sidebar Counting Bar Style */
+        #summary-bar {
+            width: 300px;
+            background: var(--panel-bg);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            padding: 25px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;
+            height: fit-content;
         }
 
-        .breakdown-item {
+        .summary-card {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .summary-card.revenue { border-left-color: #10b981; }
+        .summary-card.pending { border-left-color: #f59e0b; }
+
+        .summary-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .summary-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .action-buttons {
             display: flex;
-            justify-content: space-between;
-            font-size: 14px;
-            padding: 6px 0;
-            border-bottom: 1px dashed var(--border-color);
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .btn-secondary {
+            background-color: #64748b;
+        }
+        .btn-secondary:hover {
+            background-color: #475569;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>Krispy Sips — Sales Register</h1>
-        <div class="date-badge" id="currentDate">Date: --/--/----</div>
-    </header>
-
-    <div class="main-container">
-        <div class="left-panel">
-            <div class="order-form">
-                <div class="form-group">
-                    <label for="itemSelect">Select Item</label>
-                    <select id="itemSelect">
-                        <option value="100" data-name="Large Chicken Loaded Chips">Large Chicken Loaded Chips (₹100)</option>
-                        <option value="60" data-name="Small Chicken Loaded Chips">Small Chicken Loaded Chips (₹60)</option>
-                        <option value="70" data-name="Large Veg Loaded Chips">Large Veg Loaded Chips (₹70)</option>
-                        <option value="40" data-name="Small Veg Loaded Chips">Small Veg Loaded Chips (₹40)</option>
-                        <option value="120" data-name="Boba Tea">Boba Tea (₹120)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="itemQty">Quantity</label>
-                    <input type="number" id="itemQty" value="1" min="1">
-                </div>
-                <button class="btn-add" id="addOrderBtn">Add Order</button>
+    <div id="sidebar">
+        <div class="sidebar-header">
+            <button class="btn" onclick="createNewSlide()">+ Add New Slide</button>
+        </div>
+        <h3 style="font-size: 0.9rem; margin-bottom: 10px; color: #475569;">History & Folders</h3>
+        <div class="history-container" id="historyContainer">
             </div>
+    </div>
 
+    <div id="main-content">
+        <header>
+            <h2 id="slideTitle">Daily Sales Record</h2>
+            <div class="date-picker-container">
+                <label for="slideDate" style="font-weight: 600;">Date:</label>
+                <input type="date" id="slideDate" class="date-input" onchange="handleDateChange(this.value)">
+            </div>
+        </header>
+
+        <div class="workspace">
             <div class="table-container">
-                <table>
+                <table id="salesTable">
                     <thead>
                         <tr>
-                            <th>Item Details</th>
-                            <th>Qty</th>
-                            <th>Price</th>
-                            <th>Received?</th>
-                            <th>Paid?</th>
-                            <th>Action</th>
+                            <th style="width: 10%;">Sl. No.</th>
+                            <th style="width: 45%;">Items</th>
+                            <th style="width: 15%;">Price (₹)</th>
+                            <th style="width: 15%; text-align: center;">Received</th>
+                            <th style="width: 15%; text-align: center;">Paid</th>
                         </tr>
                     </thead>
-                    <tbody id="orderTableBody">
+                    <tbody id="tableBody">
                         </tbody>
                 </table>
-            </div>
-        </div>
-
-        <div class="sidebar">
-            <h2>Live Summary Bar</h2>
-            
-            <div class="stat-card total">
-                <span class="stat-label">Total Day Sales</span>
-                <span class="stat-value" id="totalSales">₹0</span>
+                <div class="action-buttons">
+                    <button class="btn" style="width: auto;" onclick="addNewRow()">+ Add Row</button>
+                </div>
             </div>
 
-            <div class="stat-card">
-                <span class="stat-label">Orders (Received / Total)</span>
-                <span class="stat-value" id="orderCount">0 / 0</span>
-            </div>
+            <div id="summary-bar">
+                <h3 style="font-size: 1.1rem; border-bottom: 2px solid var(--border); padding-bottom: 10px;">Daily Summary</h3>
+                
+                <div class="summary-card">
+                    <div class="summary-label">Total Orders Taken</div>
+                    <div class="summary-value" id="totalOrders">0</div>
+                </div>
 
-            <div class="stat-card">
-                <span class="stat-label">Payments Complete</span>
-                <span class="stat-value" id="paymentCount" style="color: var(--success-color);">0 Paid</span>
-            </div>
+                <div class="summary-card revenue">
+                    <div class="summary-label">Total Revenue Collected</div>
+                    <div class="summary-value" id="totalRevenue">₹0.00</div>
+                </div>
 
-            <div>
-                <h3 style="font-size: 14px; margin-bottom: 10px; color: var(--text-muted); text-transform: uppercase;">Item Wise Breakdown</h3>
-                <ul class="breakdown-list" id="itemBreakdown">
-                    </ul>
+                <div class="summary-card pending">
+                    <div class="summary-label">Pending Payments</div>
+                    <div class="summary-value" id="pendingRevenue">₹0.00</div>
+                </div>
+
+                <div class="summary-card" style="border-left-color: #3b82f6;">
+                    <div class="summary-label">Orders Completed</div>
+                    <div class="summary-value" id="completedOrders">0</div>
+                </div>
+                
+                <button class="btn btn-secondary" onclick="deleteCurrentSlide()" style="margin-top: 10px; background-color: #ef4444;">Delete Current Slide</button>
             </div>
         </div>
     </div>
 
     <script>
-        // Set Today's Date automatically
-        const today = new Date();
-        document.getElementById('currentDate').innerText = `Date: ${today.toLocaleDateString('en-IN')}`;
+        // App State
+        let storeData = {};
+        let currentSlideId = "";
 
-        // Central Application Data State
-        let orders = [];
+        // Initialize App
+        window.onload = function() {
+            loadFromLocalStorage();
+            
+            // If no slides exist, create today's slide
+            if (Object.keys(storeData).length === 0) {
+                const today = new Date().toISOString().split('T')[0];
+                createSlideData(today);
+            } else {
+                // Load the most recent slide saved
+                const sortedIds = Object.keys(storeData).sort().reverse();
+                currentSlideId = sortedIds[0];
+            }
+            
+            renderSidebar();
+            renderActiveSlide();
+        };
 
-        const itemSelect = document.getElementById('itemSelect');
-        const itemQty = document.getElementById('itemQty');
-        const addOrderBtn = document.getElementById('addOrderBtn');
-        const orderTableBody = document.getElementById('orderTableBody');
-
-        // Event Listener: Add Order
-        addOrderBtn.addEventListener('click', () => {
-            const selectedOption = itemSelect.options[itemSelect.selectedIndex];
-            const name = selectedOption.getAttribute('data-name');
-            const pricePerUnit = parseInt(itemSelect.value);
-            const qty = parseInt(itemQty.value) || 1;
-            const totalPrice = pricePerUnit * qty;
-
-            const newOrder = {
-                id: Date.now(),
-                name: name,
-                qty: qty,
-                price: totalPrice,
-                isReceived: false,
-                isPaid: false
-            };
-
-            orders.push(newOrder);
-            renderApp();
-            itemQty.value = 1; // reset quantity input
-        });
-
-        // Toggle Status Functions
-        function toggleReceived(id) {
-            const order = orders.find(o => o.id === id);
-            if(order) order.isReceived = !order.isReceived;
-            renderApp();
-        }
-
-        function togglePaid(id) {
-            const order = orders.find(o => o.id === id);
-            if(order) order.isPaid = !order.isPaid;
-            renderApp();
-        }
-
-        function deleteOrder(id) {
-            orders = orders.filter(o => o.id !== id);
-            renderApp();
-        }
-
-        // Auto-Counting and Render Engine
-        function renderApp() {
-            // 1. Clear current table elements
-            orderTableBody.innerHTML = '';
-
-            let totalSalesAmount = 0;
-            let receivedCount = 0;
-            let paidCount = 0;
-
-            // Track detailed counts for each menu item specifically
-            const breakdown = {
-                "Large Chicken Loaded Chips": 0,
-                "Small Chicken Loaded Chips": 0,
-                "Large Veg Loaded Chips": 0,
-                "Small Veg Loaded Chips": 0,
-                "Boba Tea": 0
-            };
-
-            // 2. Build table rows and process metrics
-            orders.forEach(order => {
-                totalSalesAmount += order.price;
-                if (order.isReceived) receivedCount++;
-                if (order.isPaid) paidCount++;
-                if (breakdown.hasOwnProperty(order.name)) {
-                    breakdown[order.name] += order.qty;
-                }
-
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td><strong>${order.name}</strong></td>
-                    <td>${order.qty}</td>
-                    <td>₹${order.price}</td>
-                    <td><input type="checkbox" class="status-checkbox" ${order.isReceived ? 'checked' : ''} onchange="toggleReceived(${order.id})"></td>
-                    <td><input type="checkbox" class="status-checkbox" ${order.isPaid ? 'checked' : ''} onchange="togglePaid(${order.id})"></td>
-                    <td><button class="btn-delete" onclick="deleteOrder(${order.id})">✕</button></td>
-                `;
-                orderTableBody.appendChild(tr);
-            });
-
-            // 3. Update the Live Auto-Counting Sidebar Panels
-            document.getElementById('totalSales').innerText = `₹${totalSalesAmount}`;
-            document.getElementById('orderCount').innerText = `${receivedCount} / ${orders.length}`;
-            document.getElementById('paymentCount').innerText = `${paidCount} Paid (${orders.length - paidCount} Unpaid)`;
-
-            // 4. Update Item Wise Breakdown UI
-            const breakdownList = document.getElementById('itemBreakdown');
-            breakdownList.innerHTML = '';
-            for (const [itemName, itemVolume] of Object.entries(breakdown)) {
-                const li = document.createElement('li');
-                li.className = 'breakdown-item';
-                li.innerHTML = `<span>${itemName}</span><strong>x${itemVolume}</strong>`;
-                breakdownList.appendChild(li);
+        function loadFromLocalStorage() {
+            const data = localStorage.getItem('foodStallSalesData');
+            if (data) {
+                storeData = JSON.parse(data);
             }
         }
 
-        // Initialize empty rendering state on startup
-        renderApp();
+        function saveToLocalStorage() {
+            localStorage.setItem('foodStallSalesData', JSON.stringify(storeData));
+        }
+
+        function createSlideData(dateString) {
+            currentSlideId = dateString;
+            if (!storeData[currentSlideId]) {
+                storeData[currentSlideId] = {
+                    date: dateString,
+                    rows: [
+                        { item: "", price: "", received: false, paid: false },
+                        { item: "", price: "", received: false, paid: false },
+                        { item: "", price: "", received: false, paid: false }
+                    ]
+                };
+            }
+            saveToLocalStorage();
+        }
+
+        function createNewSlide() {
+            const today = new Date().toISOString().split('T')[0];
+            let targetDate = today;
+            
+            // If today already exists, increment date to help creating future/placeholder slides easily
+            if (storeData[targetDate]) {
+                let count = 1;
+                while (storeData[targetDate]) {
+                    let d = new Date();
+                    d.setDate(d.getDate() + count);
+                    targetDate = d.toISOString().split('T')[0];
+                    count++;
+                }
+            }
+            
+            createSlideData(targetDate);
+            renderSidebar();
+            renderActiveSlide();
+        }
+
+        function switchSlide(id) {
+            currentSlideId = id;
+            renderSidebar();
+            renderActiveSlide();
+        }
+
+        function handleDateChange(newDate) {
+            if (!newDate) return;
+            
+            // If date changes, shift data to the new key map
+            if (newDate !== currentSlideId) {
+                if (storeData[newDate]) {
+                    alert("A slide with this date already exists! Switching to that slide instead.");
+                    currentSlideId = newDate;
+                } else {
+                    // Re-key the object
+                    storeData[newDate] = storeData[currentSlideId];
+                    storeData[newDate].date = newDate;
+                    delete storeData[currentSlideId];
+                    currentSlideId = newDate;
+                }
+                saveToLocalStorage();
+                renderSidebar();
+                renderActiveSlide();
+            }
+        }
+
+        function deleteCurrentSlide() {
+            if (confirm("Are you sure you want to delete this daily slide?")) {
+                delete storeData[currentSlideId];
+                saveToLocalStorage();
+                
+                const remainingKeys = Object.keys(storeData);
+                if (remainingKeys.length === 0) {
+                    const today = new Date().toISOString().split('T')[0];
+                    createSlideData(today);
+                } else {
+                    currentSlideId = remainingKeys.sort().reverse()[0];
+                }
+                renderSidebar();
+                renderActiveSlide();
+            }
+        }
+
+        // Generate Folders Dynamically by Month
+        function renderSidebar() {
+            const container = document.getElementById('historyContainer');
+            container.innerHTML = "";
+
+            // Group dates into Year-Month groupings
+            const groups = {};
+            Object.keys(storeData).sort().reverse().forEach(id => {
+                const dateObj = new Date(id);
+                if(isNaN(dateObj)) return; 
+                
+                // e.g., "June 2026"
+                const monthYear = dateObj.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+                
+                if (!groups[monthYear]) {
+                    groups[monthYear] = [];
+                }
+                groups[monthYear].push(storeData[id]);
+            });
+
+            // Build Folder Structure
+            for (const [monthName, slides] of Object.entries(groups)) {
+                const folderDiv = document.createElement('div');
+                folderDiv.className = 'month-folder';
+                
+                const title = document.createElement('div');
+                title.className = 'month-title';
+                title.innerText = `📂 ${monthName}`;
+                folderDiv.appendChild(title);
+
+                slides.forEach(slide => {
+                    const link = document.createElement('a');
+                    link.className = `slide-link ${slide.date === currentSlideId ? 'active' : ''}`;
+                    
+                    // Format entry label nicely: e.g., "28 Jun 2026"
+                    const formattedDisplayDate = new Date(slide.date).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                    });
+                    
+                    link.innerText = `📄 ${formattedDisplayDate}`;
+                    link.onclick = () => switchSlide(slide.date);
+                    folderDiv.appendChild(link);
+                });
+
+                container.appendChild(folderDiv);
+            }
+        }
+
+        function renderActiveSlide() {
+            const slide = storeData[currentSlideId];
+            document.getElementById('slideDate').value = slide.date;
+            
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = "";
+
+            slide.rows.forEach((row, index) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><input type="text" value="${row.item}" oninput="updateRowData(${index}, 'item', this.value)" placeholder="e.g., Loaded Chips"></td>
+                    <td><input type="number" value="${row.price}" oninput="updateRowData(${index}, 'price', this.value)" placeholder="0.00"></td>
+                    <td style="text-align:center;"><input type="checkbox" ${row.received ? 'checked' : ''} onchange="updateRowData(${index}, 'received', this.checked)"></td>
+                    <td style="text-align:center;"><input type="checkbox" ${row.paid ? 'checked' : ''} onchange="updateRowData(${index}, 'paid', this.checked)"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            calculateTotals();
+        }
+
+        function addNewRow() {
+            storeData[currentSlideId].rows.push({ item: "", price: "", received: false, paid: false });
+            saveToLocalStorage();
+            renderActiveSlide();
+        }
+
+        function updateRowData(index, field, value) {
+            storeData[currentSlideId].rows[index][field] = value;
+            saveToLocalStorage();
+            calculateTotals();
+        }
+
+        // Live Calculations for Side Counter Panel
+        function calculateTotals() {
+            const rows = storeData[currentSlideId].rows;
+            let totalOrders = 0;
+            let totalRevenue = 0;
+            let pendingRevenue = 0;
+            let completedOrders = 0;
+
+            rows.forEach(row => {
+                const price = parseFloat(row.price) || 0;
+                
+                // If an item name or price exists, we consider it a real log entry
+                if (row.item.trim() !== "" || price > 0) {
+                    totalOrders++;
+                    
+                    if (row.paid) {
+                        totalRevenue += price;
+                    } else {
+                        pendingRevenue += price;
+                    }
+
+                    if (row.received && row.paid) {
+                        completedOrders++;
+                    }
+                }
+            });
+
+            document.getElementById('totalOrders').innerText = totalOrders;
+            document.getElementById('totalRevenue').innerText = `₹${totalRevenue.toFixed(2)}`;
+            document.getElementById('pendingRevenue').innerText = `₹${pendingRevenue.toFixed(2)}`;
+            document.getElementById('completedOrders').innerText = completedOrders;
+        }
     </script>
 </body>
 </html>
