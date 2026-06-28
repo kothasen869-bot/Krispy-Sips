@@ -42,7 +42,7 @@
       "name": "Large Chicken Loaded Chips",
       "price": 100,
       "itemCount": 1,
-      "received": false,
+      "received": true,
       "paid": false
     },
     {
@@ -51,7 +51,7 @@
       "name": "Small Veg Loaded Chips",
       "price": 40,
       "itemCount": 1,
-      "received": false,
+      "received": true,
       "paid": false
     }
   ],
