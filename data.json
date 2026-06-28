@@ -6,7 +6,7 @@
         "item": "Large Chicken Loaded",
         "price": "100",
         "received": true,
-        "paid": false
+        "paid": true
       },
       {
         "item": "",
