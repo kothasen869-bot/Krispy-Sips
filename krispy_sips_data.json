@@ -10,6 +10,15 @@
       "itemCount": 1,
       "received": false,
       "paid": false
+    },
+    {
+      "id": 1782797238346,
+      "time": "10:57",
+      "name": "Large Veg Loaded Chips",
+      "price": 70,
+      "itemCount": 1,
+      "received": false,
+      "paid": false
     }
   ],
   "2026-07-01": []
