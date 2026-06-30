@@ -3,15 +3,6 @@
   "2026-06-29": [],
   "2026-06-30": [
     {
-      "id": 1782797234699,
-      "time": "10:57",
-      "name": "Small Veg Loaded Chips",
-      "price": 40,
-      "itemCount": 1,
-      "received": false,
-      "paid": false
-    },
-    {
       "id": 1782797238346,
       "time": "10:57",
       "name": "Large Veg Loaded Chips",
