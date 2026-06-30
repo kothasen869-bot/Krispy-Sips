@@ -3,10 +3,10 @@
   "2026-06-29": [],
   "2026-06-30": [
     {
-      "id": 1782797238346,
+      "id": 1782797258542,
       "time": "10:57",
-      "name": "Large Veg Loaded Chips",
-      "price": 70,
+      "name": "Small Veg Loaded Chips",
+      "price": 40,
       "itemCount": 1,
       "received": false,
       "paid": false
